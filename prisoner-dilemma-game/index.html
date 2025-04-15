@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>죄수의 딜레마 게임</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button id="muteButton" onclick="toggleMute()">🔈</button>
+
+  <div class="scene active" id="sceneIntro">
+    <h2>죄수의 딜레마</h2>
+    <p>-운명의 하루-<br>오늘은 평범할 줄 알았다.<br>하지만 그 아침, 모든 것이 무너졌다.</p>
+    <div class="scene-image"><img src="1_young_man_and_girl.png" /></div>
+    <button onclick="goToScene('sceneMorning')">▶ 시작</button>
+  </div>
+
+  <div class="scene" id="sceneMorning">
+    <h2>아침 - 밀린 월세</h2>
+    <p>밀린 월세가 몇 달째입니다.<br>결국 집주인이 직접 찾아왔습니다. 당신은 어떻게 하나요?</p>
+    <div class="scene-image"><img src="2_owner.png" /></div>
+    <button onclick="selectCrime('계단에서 민다')">계단에서 민다</button>
+    <button onclick="selectCrime('도끼로 친다')">도끼로 친다</button>
+  </div>
+
+  <div class="scene" id="sceneLunch">
+    <h2>점심</h2>
+    <p>아침의 충격 이후, 가진 돈도 없었습니다.<br>배가 고파 들어선 편의점에서 당신은 결심합니다.</p>
+    <div class="scene-image"><img src="3_store.png" /></div>
+    <button onclick="selectCrime('절도')">물건을 몰래 훔친다</button>
+    <button onclick="selectCrime('협박')">점원을 위협해 훔친다</button>
+  </div>
+
+  <div class="scene" id="sceneAfternoon1">
+    <h2>오후 - 빈집 침입</h2>
+    <p>돌아갈 집이 없었습니다. 며칠째 떠돌다, 비어 보이는 집을 발견합니다.<br>당신은 그 문을 엽니다.</p>
+    <div class="scene-image"><img src="3_extra_house.png" /></div>
+    <button onclick="selectCrime('소극적 절도')">필요한 것만 챙긴다</button>
+    <button onclick="selectCrime('대담한 절도')">집 전체를 뒤진다</button>
+  </div>
+
+  <div class="scene" id="sceneAfternoon2">
+    <h2>예상치 못한 상황</h2>
+    <p>그 집엔 아이가 있었습니다. 예상치 못한 상황에 당신은 잠시 멈칫합니다.<br>이제 어떻게 하시겠습니까?</p>
+    <div class="scene-image"><img src="5_child.png" /></div>
+    <button onclick="selectCrime('도망')">그대로 도망친다</button>
+    <button onclick="selectCrime('감금')">아이를 묶어둔다</button>
+    <button onclick="selectCrime('유괴')">아이를 데리고 나온다</button>
+  </div>
+
+  <div class="scene" id="scenePolice">
+    <h2>저녁 - 체포</h2>
+    <p>결국 당신과 애인은 경찰에 체포당했습니다.<br>모든 것이 끝난 줄 알았습니다.</p>
+    <div class="scene-image"><img src="6_police.png" /></div>
+    <button onclick="goToScene('sceneDilemmaIntro')">▶ 심문 설명</button>
+  </div>
+
+<div class="scene" id="sceneDilemmaIntro">
+  <h2>죄수의 딜레마</h2>
+  <p id="typeTextTarget" style="white-space: pre-line;"></p>
+  <div class="scene-image"><img src="7_room.png" /></div>
+
+  <!-- ✅ 이거 하나만 남기고 -->
+  <button id="startInterrogationBtn" onclick="startInterrogation()" style="display: none;" disabled>▶ 심문 시작</button>
+</div>
+
+  
+
+  <div class="scene" id="sceneInterrogation">
+    <h2 id="crimeTitle"></h2>
+    <p id="interrogationText"></p>
+    <div class="scene-image"><img src="8_last.png" alt="interrogation" /></div>
+    <button onclick="choose('자백')">🔴 자백</button>
+    <button onclick="choose('묵비권')">⚫ 묵비권</button>
+  </div>
+
+  <div class="scene" id="sceneResult">
+    <h2>형량 결과</h2>
+    <h3 id="endingTitle" style="margin-top: 1rem; color: #ffcc00;"></h3>
+
+    <p id="sentenceDisplay" class="highlight">0년</p>
+    <div id="trustDisplay" style="font-size: 0.9rem; color: #aaa; margin-top: 10px;"></div>
+    <div id="resultTable"></div>
+    <div id="endingMessage"></div>
+    <button onclick="location.reload()">🔁 다시하기</button>
+  </div>
+
+  <!-- 오디오 -->
+  <audio id="sfxClick" src="click.wav"></audio>
+  <audio id="sfxWin" src="win.wav"></audio>
+  <audio id="sfxFail" src="fail.mp3"></audio>
+  <audio id="bgmHorror" src="horror-background-music.mp3" loop></audio>
+  <audio id="bgmIntro" src="introBgm.wav" loop></audio>
+  <audio id="sfxHover" src="hover.wav"></audio>
+  
+  <audio id="bgmTyping" src="type-writing.wav" preload="auto" loop></audio>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
