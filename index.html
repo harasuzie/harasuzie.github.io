@@ -15,6 +15,7 @@
       text-align: center;
       padding: 2rem 1rem;
       transition: background 0.3s, color 0.3s;
+      padding-bottom: 120px;
     }
     h1 {
       font-size: 2rem;
@@ -49,17 +50,35 @@
     a:hover {
       color: #00aaff;
     }
+    .about {
+      font-size: 0.95rem;
+      color: #666;
+      max-width: 600px;
+      margin: 2rem auto 0;
+      line-height: 1.6;
+    }
     footer {
       margin-top: 60px;
       font-size: 0.8rem;
       color: #666;
     }
-
+    .fixed-ad {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      background: #f9f9f9;
+      border-top: 1px solid #ccc;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #444;
+    }
     @media (max-width: 600px) {
       h1 { font-size: 1.5rem; }
       li { font-size: 1rem; }
     }
-
     body.dark {
       --bg: #111;
       --text: #eee;
@@ -88,9 +107,35 @@
     <li><a href="/prisoner-dilemma-game/"><span class="ko">🔒 죄수의 딜레마</span><span class="en" style="display:none;">🔒 Prisoner's Dilemma</span></a></li>
   </ul>
 
+  <div class="about ko">
+    이 사이트는 선택과 감성을 테마로 한 실험적인 웹 프로젝트 공간입니다.<br>
+    간단한 게임을 통해 재미있고 의미 있는 선택을 경험해보세요.
+  </div>
+  <div class="about en" style="display:none;">
+    This site is a web playground of experimental ideas around choices and emotion.<br>
+    Explore meaningful interactions through simple games.
+  </div>
+
   <footer>
     &copy; 2024 Harasuzie. All rights reserved.
   </footer>
+
+  <div class="fixed-ad">
+    🔖 광고 위치 (Google AdSense 광고가 여기에 표시될 예정입니다)<br>
+    <!-- 나중에 여기에 Google AdSense 코드 삽입 -->
+    <!--
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+         data-ad-slot="YYYYYYYYYY"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    -->
+  </div>
 
   <script>
     function setLang(lang) {
