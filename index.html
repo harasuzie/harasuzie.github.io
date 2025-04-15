@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>하라수지의 선택 놀이터</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg, #fff);
+      color: var(--text, #000);
+      text-align: center;
+      padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--title, #ff9900);
+      margin-bottom: 0.5em;
+    }
+    .lang-switch, .theme-toggle {
+      margin-bottom: 1rem;
+    }
+    button {
+      background: #ddd;
+      color: #000;
+      border: none;
+      margin: 0 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
+    a {
+      color: #0077cc;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #00aaff;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      li { font-size: 1rem; }
+    }
+
+    body.dark {
+      --bg: #111;
+      --text: #eee;
+      --title: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title-ko">🎡 하라수지의 선택 놀이터</h1>
+  <h1 id="title-en" style="display:none;">🎡 Harasuzie's Choice Playground</h1>
+
+  <div class="lang-switch">
+    <button onclick="setLang('ko')">한국어</button>
+    <button onclick="setLang('en')">English</button>
+  </div>
+
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">🌗 테마 전환</button>
+  </div>
+
+  <p id="desc-ko">재미있는 선택, 감성적인 실험, 그리고 짧은 이야기들.</p>
+  <p id="desc-en" style="display:none;">A playground of choices, emotions, and little stories.</p>
+
+  <ul>
+    <li><a href="/betrayal-game/"><span class="ko">🧠 배신게임</span><span class="en" style="display:none;">🧠 Betrayal Game</span></a></li>
+    <li><a href="/prisoner-dilemma-game/"><span class="ko">🔒 죄수의 딜레마</span><span class="en" style="display:none;">🔒 Prisoner's Dilemma</span></a></li>
+  </ul>
+
+  <footer>
+    &copy; 2024 Harasuzie. All rights reserved.
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.ko').forEach(e => e.style.display = lang === 'ko' ? '' : 'none');
+      document.querySelectorAll('.en').forEach(e => e.style.display = lang === 'en' ? '' : 'none');
+      document.getElementById('title-ko').style.display = lang === 'ko' ? '' : 'none';
+      document.getElementById('title-en').style.display = lang === 'en' ? '' : 'none';
+      document.getElementById('desc-ko').style.display = lang === 'ko' ? '' : 'none';
+      document.getElementById('desc-en').style.display = lang === 'en' ? '' : 'none';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>
