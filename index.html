@@ -1,430 +1,147 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retro Shooter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>하라수지의 선택 놀이터</title>
+
+  <!-- Google AdSense 연결 코드 -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7499934244421737"
+          crossorigin="anonymous"></script>
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      color-scheme: light dark;
+    }
     body {
-      display: flex;
-      
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: 'Press Start 2P', sans-serif;
-      background: #111;
-      color: #fff;
-      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg, #fff);
+      color: var(--text, #000);
+      text-align: center;
+      padding: 2rem 1rem;
+      transition: background 0.3s, color 0.3s;
+      padding-bottom: 120px;
     }
-    canvas {
-  background: #222;
-  display: block;
-  width: 100%;
-  height: auto;
-}
-    #scoreboard {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-  text-align: center;
-  padding: 10px;
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-    #restartButton {
-      display: none;
-      position: absolute;
-      top: 60%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 12px 24px;
-      font-size: 14px;
-      background: #ff4444;
-      color: white;
+    h1 {
+      font-size: 2rem;
+      color: var(--title, #ff9900);
+      margin-bottom: 0.5em;
+    }
+    .lang-switch, .theme-toggle {
+      margin-bottom: 1rem;
+    }
+    button {
+      background: #ddd;
+      color: #000;
       border: none;
-      border-radius: 8px;
+      margin: 0 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
       cursor: pointer;
-      z-index: 10;
     }
-
-    #finalScore {
-      display: none;
-      padding-top: 50px;
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 20px;
-      color: white;
-      z-index: 9;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 30px;
-      gap: 20px;
+    ul {
+      list-style: none;
+      padding: 0;
     }
-
-    .highscore-glow {
-  white-space: nowrap;
-  font-size: 18px;
-  margin-top: 40px;
-      color: #ffff00;
-      font-family: 'Press Start 2P', sans-serif;
-      animation: glow-pulse 0.6s infinite alternate;
-      text-shadow:
-        0 0 1px #ffff00,
-        0 0 2px #ffcc00;
+    li {
+      margin: 10px 0;
+      font-size: 1.2rem;
     }
-
-    @keyframes glow-pulse {
-      0% {
-        opacity: 1;
-        text-shadow:
-          0 0 4px #ffff00,
-          0 0 8px #ffcc00,
-          0 0 12px #ffaa00;
-      }
-      100% {
-        opacity: 0.3;
-        text-shadow: 0 0 1px #666600;
-      }
+    a {
+      color: #0077cc;
+      text-decoration: none;
+      transition: color 0.2s;
     }
-
-    #canvasWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#canvasContainer {
-      position: relative;
+    a:hover {
+      color: #00aaff;
+    }
+    .about {
+      font-size: 0.95rem;
+      color: #666;
+      max-width: 600px;
+      margin: 2rem auto 0;
+      line-height: 1.6;
+    }
+    footer {
+      margin-top: 60px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .fixed-ad {
+      position: fixed;
+      bottom: 0;
+      left: 0;
       width: 100%;
-      max-width: 480px;
-      aspect-ratio: 2 / 3;
+      z-index: 999;
+      background: #f9f9f9;
+      border-top: 1px solid #ccc;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #444;
     }
-
-    #pauseButton {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      max-width: 100px;
-      width: fit-content;
-      background: #fff;
-      color: #000;
-      font-size: 10px;
-      font-family: 'Press Start 2P', sans-serif;
-      padding: 6px 10px;
-      border: 2px solid #000;
-      border-radius: 6px;
-      cursor: pointer;
-      z-index: 10;
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      li { font-size: 1rem; }
     }
-
-    .retro-button {
-      background: #fff;
-      color: #000;
-      font-size: 10px;
-      font-family: 'Press Start 2P', sans-serif;
-      padding: 6px 10px;
-      border: 2px solid #000;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    #resetButton {
-      position: absolute;
-      top: 45px;
-      left: 10px;
-      background: #fff;
-      color: #000;
-      font-size: 10px;
-      font-family: 'Press Start 2P', sans-serif;
-      padding: 6px 10px;
-      border: 2px solid #000;
-      border-radius: 6px;
-      display: none;
-      cursor: pointer;
-      z-index: 10;
+    body.dark {
+      --bg: #111;
+      --text: #eee;
+      --title: #ffcc00;
     }
   </style>
 </head>
 <body>
-  
-    <div id="scoreboard">
-    Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
-  </div>
-<div id="canvasWrapper">
-  
-  </div>
-  <div id="canvasContainer">
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
-    <button id="pauseButton">Pause</button>
-<button id="fullscreenButton" class="retro-button" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-  ⛶ Fullscreen
-</button>
+  <h1 id="title-ko">🎡 하라수지의 선택 놀이터</h1>
+  <h1 id="title-en" style="display:none;">🎡 Harasuzie's Choice Playground</h1>
 
+  <div class="lang-switch">
+    <button onclick="setLang('ko')">한국어</button>
+    <button onclick="setLang('en')">English</button>
   </div>
-  <div id="finalScore"></div>
-  <button id="restartButton" class="retro-button">Restart</button>
+
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">🌗 테마 전환</button>
+  </div>
+
+  <p id="desc-ko">재미있는 선택, 감성적인 실험, 그리고 짧은 이야기들.</p>
+  <p id="desc-en" style="display:none;">A playground of choices, emotions, and little stories.</p>
+
+  <ul>
+    <li><a href="/betrayal-game/"><span class="ko">🧠 배신게임</span><span class="en" style="display:none;">🧠 Betrayal Game</span></a></li>
+    <li><a href="/prisoner-dilemma-game/"><span class="ko">🔒 죄수의 딜레마</span><span class="en" style="display:none;">🔒 Prisoner's Dilemma</span></a></li>
+  </ul>
+
+  <div class="about ko">
+    이 사이트는 선택과 감성을 테마로 한 실험적인 웹 프로젝트 공간입니다.<br>
+    간단한 게임을 통해 재미있고 의미 있는 선택을 경험해보세요.
+  </div>
+  <div class="about en" style="display:none;">
+    This site is a web playground of experimental ideas around choices and emotion.<br>
+    Explore meaningful interactions through simple games.
+  </div>
+
+  <footer>
+    &copy; 2024 Harasuzie. All rights reserved.
+  </footer>
+
+  <div class="fixed-ad">
+    🔖 광고 위치 (Google AdSense 광고가 여기에 표시될 예정입니다)
+  </div>
+
   <script>
-    window.onload = () => {
-      document.getElementById('adsensePlaceholder').style.display = 'none';
-    };
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const restartButton = document.getElementById('restartButton');
-    const finalScore = document.getElementById('finalScore');
-
-    const plane = { x: 180, y: 520, width: 40, height: 30 };
-    let bullets = [];
-    let enemies = [];
-    let explosions = [];
-    let score = 0;
-    let highScore = parseInt(localStorage.getItem('highScore')) || 0;
-    let isNewHighScore = false;
-    let gameOver = false;
-    let planeHit = false;
-        
-    let shootCooldown = 0;
-    let isPaused = false;
-let lastEnemySpawn = 0;
-
-    document.getElementById('highscore').textContent = highScore;
-
-    function spawnEnemy() {
-      enemies.push({
-        x: Math.random() * 360,
-        y: -20,
-        width: 30,
-        height: 30,
-        speed: 2 + Math.random() * 2
-      });
+    function setLang(lang) {
+      document.querySelectorAll('.ko').forEach(e => e.style.display = lang === 'ko' ? '' : 'none');
+      document.querySelectorAll('.en').forEach(e => e.style.display = lang === 'en' ? '' : 'none');
+      document.getElementById('title-ko').style.display = lang === 'ko' ? '' : 'none';
+      document.getElementById('title-en').style.display = lang === 'en' ? '' : 'none';
+      document.getElementById('desc-ko').style.display = lang === 'ko' ? '' : 'none';
+      document.getElementById('desc-en').style.display = lang === 'en' ? '' : 'none';
     }
 
-    function shootBullet() {
-      if (shootCooldown <= 0) {
-        bullets.push({
-          x: plane.x + plane.width / 2 - 2,
-          y: plane.y,
-          width: 4,
-          height: 10
-        });
-        shootCooldown = 20;
-        playSound('sfxFire');
-      }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
     }
-
-    function createExplosion(x, y) {
-      explosions.push({ x, y, radius: 0, alpha: 1 });
-    }
-
-    function updateExplosions() {
-      explosions.forEach(ex => {
-        ex.radius += 2;
-        ex.alpha -= 0.05;
-      });
-      explosions = explosions.filter(ex => ex.alpha > 0);
-
-      if (gameOver && explosions.length === 0 && planeHit) {
-        finalScore.innerHTML = `Your Score: ${score}` + 
-          (isNewHighScore ? "<div class='highscore-glow'>★ NEW HIGH SCORE! ★</div>" : "");
-        finalScore.style.display = 'flex';
-        if (isNewHighScore) playSound('sfxHighscore');
-        restartButton.style.display = 'block';
-        planeHit = false;
-        document.getElementById('adsensePlaceholder').style.display = 'block';
-
-      }
-    }
-
-    function update() {
-      if (gameOver && explosions.length === 0) return;
-      shootCooldown--;
-      shootBullet();
-      bullets.forEach(b => b.y -= 6);
-      bullets = bullets.filter(b => b.y > -10);
-      enemies.forEach(e => e.y += e.speed);
-      enemies = enemies.filter(e => e.y < 600);
-
-      for (let bi = bullets.length - 1; bi >= 0; bi--) {
-        for (let ei = enemies.length - 1; ei >= 0; ei--) {
-          const b = bullets[bi], e = enemies[ei];
-          if (b.x < e.x + e.width && b.x + b.width > e.x &&
-              b.y < e.y + e.height && b.y + b.height > e.y) {
-            createExplosion(e.x + e.width / 2, e.y + e.height / 2);
-            bullets.splice(bi, 1);
-            enemies.splice(ei, 1);
-            score++;
-            if (score > highScore) {
-              isNewHighScore = true;
-              highScore = score;
-              localStorage.setItem('highScore', highScore);
-              document.getElementById('highscore').textContent = highScore;
-            }
-            document.getElementById('score').textContent = score;
-            playSound('sfxKill');
-            break;
-          }
-        }
-      }
-
-      for (let ei = enemies.length - 1; ei >= 0; ei--) {
-        const e = enemies[ei];
-        if (!gameOver && e.x < plane.x + plane.width && e.x + e.width > plane.x &&
-            e.y < plane.y + plane.height && e.y + e.height > plane.y) {
-          createExplosion(plane.x + plane.width / 2, plane.y + plane.height / 2);
-          createExplosion(e.x + e.width / 2, e.y + e.height / 2);
-          enemies.splice(ei, 1);
-          playSound('sfxExplosion');
-          endGame();
-        }
-      }
-
-      updateExplosions();
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (!gameOver) {
-        ctx.fillStyle = '#ffff00';
-        ctx.beginPath();
-        ctx.moveTo(plane.x + plane.width / 2, plane.y);
-        ctx.lineTo(plane.x, plane.y + plane.height);
-        ctx.lineTo(plane.x + plane.width, plane.y + plane.height);
-        ctx.closePath();
-        ctx.fill();
-      }
-      ctx.fillStyle = '#0ff';
-      bullets.forEach(b => ctx.fillRect(b.x, b.y, b.width, b.height));
-      ctx.fillStyle = '#f00';
-      enemies.forEach(e => ctx.fillRect(e.x, e.y, e.width, e.height));
-      explosions.forEach(ex => {
-        ctx.beginPath();
-        ctx.arc(ex.x, ex.y, ex.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 165, 0, ${ex.alpha})`;
-        ctx.fill();
-      });
-    }
-
-    function loop() {
-      const now = Date.now();
-      if (!isPaused && now - lastEnemySpawn > 1000) {
-        spawnEnemy();
-        lastEnemySpawn = now;
-      }
-      if (!isPaused) update();
-      updateExplosions();
-      draw();
-      requestAnimationFrame(loop);
-    }
-
-    function endGame() {
-      gameOver = true;
-      planeHit = true;
-    }
-
-    restartButton.addEventListener('click', () => {
-      bullets = []; enemies = []; explosions = [];
-      score = 0; shootCooldown = 0;
-      gameOver = false; planeHit = false;
-        document.getElementById('adsensePlaceholder').style.display = 'block';
-
-      isNewHighScore = false;
-      plane.x = 180; plane.y = 520;
-      document.getElementById('score').textContent = score;
-            playSound('sfxKill');
-      finalScore.style.display = 'none';
-      restartButton.style.display = 'none';
-  document.getElementById('adsensePlaceholder').style.display = 'none';
-    });
-
-    canvas.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      plane.x = Math.max(0, Math.min(canvas.width - plane.width, e.clientX - rect.left - plane.width / 2));
-    });
-
-    canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      const rect = canvas.getBoundingClientRect();
-      plane.x = Math.max(0, Math.min(canvas.width - plane.width, e.touches[0].clientX - rect.left - plane.width / 2));
-    }, { passive: false });
-
-    document.getElementById('pauseButton').addEventListener('click', () => {
-      isPaused = !isPaused;
-      pauseButton.textContent = isPaused ? 'Resume' : 'Pause';
-      resetButton.style.display = isPaused ? 'block' : 'none';
-    });
-
-    const resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset High Score';
-    resetButton.id = 'resetButton';
-    resetButton.className = 'retro-button';
-    resetButton.style.display = 'none';
-    document.getElementById('canvasContainer').appendChild(resetButton);
-    resetButton.addEventListener('click', () => {
-      localStorage.removeItem('highScore');
-      location.reload();
-    });
-
-    
-let canPlaySounds = false;
-window.addEventListener('click', () => {
-  canPlaySounds = true;
-}, { once: true });
-
-function playSound(id) {
-  if (!canPlaySounds) return;
-  const s = document.getElementById(id);
-  if (s) s.play().catch(() => {});
-}
-
-loop();
-const fullscreenBtn = document.getElementById('fullscreenButton');
-
-fullscreenBtn.addEventListener('click', () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-});
-
-document.addEventListener('fullscreenchange', () => {
-  if (document.fullscreenElement) {
-    fullscreenBtn.textContent = 'Exit';
-  } else {
-    fullscreenBtn.textContent = '⛶ Fullscreen';
-  }
-});
-
-document.getElementById('fullscreenButton').addEventListener('click', () => {
-  const elem = document.documentElement;
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    elem.msRequestFullscreen();
-  }
-});
-
-    
   </script>
-
-<audio id="sfxFire" src="fire.wav" preload="auto"></audio>
-<audio id="sfxExplosion" src="explosion.wav" preload="auto"></audio>
-<audio id="sfxKill" src="enemykill.ogg" preload="auto"></audio>
-<audio id="sfxHighscore" src="newhighscore.wav" preload="auto"></audio>
-
-<div id="adsensePlaceholder" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; justify-content: center; align-items: center; z-index: 100;">
-    [ 광고가 들어갈 자리입니다 ]
-  </div>
 </body>
 </html>
