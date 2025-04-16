@@ -11,13 +11,32 @@ const questions = [
 
 let current = 0;
 let answers = [];
+let 
+
+function startQuiz() {
+  current = 0;
+  answers = [];
+  const nameInput = document.getElementById("username").value.trim();
+  if (!nameInput) {
+    alert("이름을 입력해주세요!");
+    return;
+  }
+  userName = nameInput;
+  localStorage.setItem("love-test-username", userName);
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("loading-screen").style.display = "block";
+  setTimeout(() => {
+    document.getElementById("loading-screen").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    showQuestion();
+  }, 500);
+}
 
 function showQuestion() {
   const q = questions[current];
   document.getElementById("question").textContent = q.q;
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
-
   q.options.forEach((text, index) => {
     const btn = document.createElement("button");
     btn.className = "option-btn";
@@ -35,19 +54,8 @@ function nextQuestion() {
   if (current < questions.length) {
     showQuestion();
   } else {
-    const quiz = document.getElementById("quiz");
-    const loading = document.getElementById("loading-screen");
-
-    if (quiz && loading) {
-      quiz.style.display = "none";
-      loading.style.display = "block";
-
-      setTimeout(() => {
-        loading.style.display = "none";
-        quiz.style.display = "block";
-        showResult();
-      }, 500);
-    }
+    document.getElementById("quiz").style.display = "none";
+    showResult();
   }
 }
 
@@ -56,85 +64,58 @@ function showResult() {
   let type = "";
   let adviceList = [];
 
-  if (score === 0) {
+  if (score <= 1) {
     type = "❄️ 연애 회피형";
-    adviceList = [
-      "사랑이 어렵게 느껴질 수 있어요. 천천히 시작해도 괜찮아요.",
-      "스스로를 먼저 사랑하는 것도 연습이 필요해요."
-    ];
-  } else if (score === 1) {
+    adviceList = ["사랑이 어렵게 느껴질 수 있어요.", "천천히 시작해도 괜찮아요."];
+  } else if (score <= 2) {
     type = "🪩 철벽 방어형";
-    adviceList = [
-      "상대를 너무 믿지 못하는 건 과거의 상처 때문일 수도 있어요.",
-      "마음을 열면 상대방도 더 따뜻하게 다가올 거예요."
-    ];
-  } else if (score === 2) {
+    adviceList = ["상대를 너무 믿지 못하는 건 과거 때문일 수 있어요.", "마음을 열어보세요."];
+  } else if (score <= 3) {
     type = "🎯 직진형 연애자";
-    adviceList = [
-      "당신의 솔직함은 매력이지만, 여유도 중요해요.",
-      "상대방의 속도도 함께 맞춰보면 더 오래 갈 수 있어요."
-    ];
-  } else if (score === 3) {
+    adviceList = ["솔직함은 매력이지만, 여유도 중요해요."];
+  } else if (score <= 4) {
     type = "💖 따뜻한 리더형";
-    adviceList = [
-      "늘 먼저 배려하는 당신, 때론 스스로를 챙기는 것도 필요해요.",
-      "표현하지 않으면 모를 수 있어요. 마음을 나눠보세요."
-    ];
-  } else if (score === 4) {
-    type = "🌊 균형 잡힌 파트너형";
-    adviceList = [
-      "서로의 다름을 인정하며 잘 맞춰가는 타입이에요.",
-      "대화가 끊기지 않게 꾸준한 관심이 중요해요."
-    ];
-  } else if (score === 5) {
+    adviceList = ["표현하지 않으면 모를 수 있어요.", "마음을 나눠보세요."];
+  } else if (score <= 5) {
     type = "🌿 자유로운 영혼형";
-    adviceList = [
-      "자유롭지만 책임감 있는 연애를 지향하는 당신!",
-      "상대에게도 자유를 줄 때 신뢰가 자랍니다."
-    ];
-  } else if (score === 6) {
-    type = "🌀 밀당 장인형";
-    adviceList = [
-      "당신은 밀당의 고수! 하지만 가끔은 직진도 필요해요.",
-      "상대가 혼란스러워할 수 있으니 진심은 꼭 보여주세요."
-    ];
+    adviceList = ["자유롭지만 책임감 있는 연애!", "상대에게도 자유를 주세요."];
   } else {
     type = "🔥 감정 폭발형";
-    adviceList = [
-      "감정에 솔직한 건 좋아요, 하지만 천천히 말해도 괜찮아요.",
-      "대화는 감정보다 먼저 시작해야 할 때가 있어요."
-    ];
+    adviceList = ["감정 표현도 좋지만, 천천히 생각해봐요."];
   }
 
   const randomAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+  document.getElementById("quiz").innerHTML = `
+    <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
 
-  const quiz = document.getElementById("quiz");
-  quiz.innerHTML = `
-    <h2>당신은 "${type}" 입니다!</h2>
-    <p style="font-size: 0.9rem; color: #666; margin-top: 1rem;">💬 ${randomAdvice}</p>
-    <button id="restartBtn" onclick="restartQuiz()">🔁 다시 하기</button>
+    <div class="result-card">
+      <h2>${userName}님은<br>"${type}"입니다!</h2>
+      <p>💬 ${randomAdvice}</p>
+      <button id="restartBtn" onclick="restartQuiz()">🔁 다시 하기</button>
+    </div>
   `;
-
-  const ad = document.getElementById("adsense-bottom");
-  if (ad) ad.style.display = "block";
+  document.getElementById("quiz").style.display = "block";
 }
+
 
 function restartQuiz() {
   current = 0;
   answers = [];
-
-  const ad = document.getElementById("adsense-bottom");
-  if (ad) ad.style.display = "none";
-
   document.getElementById("quiz").innerHTML = `
+    <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
+
     <h2 id="question"></h2>
     <div id="options"></div>
   `;
-  showQuestion();
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("start-screen").style.display = "block";
+  increaseCountAndSave();
 }
 
-document.getElementById("startBtn").onclick = () => {
-  document.getElementById("start-screen").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
-  showQuestion();
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("username");
+  if (localStorage.getItem("love-test-username")) {
+    input.value = localStorage.getItem("love-test-username");
+    userName = input.value;
+  }
+});

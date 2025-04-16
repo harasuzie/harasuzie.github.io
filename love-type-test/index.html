@@ -1,36 +1,82 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>심리 테스트</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>연애 성향 테스트</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- 시작 화면 -->
-  <div id="start-screen">
-    <h1>💘 연애 성향 테스트</h1>
-    <p>7가지 질문으로 알아보는 당신의 연애 스타일</p>
-    <button id="startBtn" class="option-btn">시작하기</button>
+  <div id="start-screen" class="card">
+    <h1 class="title">💘 연애 성향 테스트</h1>
+    <p class="subtitle">7가지 질문으로 알아보는 당신의 연애 스타일</p>
+    <input type="text" id="username" placeholder="이름을 입력해주세요" />
+    <button class="start-btn" onclick="startQuiz()">시작하기</button>
+    <p class="participants">참여자 수: 123,456명</p>
   </div>
 
   <!-- 로딩 화면 -->
-  <div id="loading-screen" style="display: none;">
+  <div id="loading-screen" class="card" style="display: none;">
     <p>🔄 테스트를 준비 중입니다...</p>
   </div>
 
-  <!-- 질문 화면 -->
-  <div id="quiz" style="display: none;">
+  <!-- 퀴즈 화면 -->
+  <div id="quiz" class="card" style="display: none;">
     <h2 id="question">질문 로딩 중...</h2>
     <div id="options"></div>
   </div>
 
   <!-- 광고 자리 -->
-  <div id="adsense-bottom" style="display: none;">
-    <div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div>
+  
   </div>
 
+  
+  
+
+  
+
+  
+
   <script src="script.js"></script>
+
+  
+
+<script>
+  let count = localStorage.getItem("love-test-count");
+  if (!count) {
+    count = Math.floor(890 + Math.random() * 20);
+  }
+
+  function animateCount(el, target) {
+    let current = 0;
+    const duration = 1500;
+    const steps = 30;
+    const increment = Math.ceil(target / steps);
+    const interval = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(interval);
+      }
+      el.textContent = `참여자 수: ${current.toLocaleString()}명`;
+    }, duration / steps);
+  }
+
+  function increaseCountAndSave() {
+    let updated = parseInt(count) + 1;
+    count = updated;
+    localStorage.setItem("love-test-count", updated);
+    const el = document.querySelector(".participants");
+    if (el) el.textContent = `참여자 수: ${updated.toLocaleString()}명`;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const el = document.querySelector(".participants");
+    if (el) animateCount(el, Number(count));
+  });
+</script>
+<script src="script.js"></script>
+
 </body>
 </html>
