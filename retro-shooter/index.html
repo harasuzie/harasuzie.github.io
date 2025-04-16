@@ -334,13 +334,13 @@ let lastEnemySpawn = 0;
 
     canvas.addEventListener('mousemove', e => {
       const rect = canvas.getBoundingClientRect();
-      plane.x = e.clientX - rect.left - plane.width / 2;
+      plane.x = Math.max(0, Math.min(canvas.width - plane.width, e.clientX - rect.left - plane.width / 2));
     });
 
     canvas.addEventListener('touchmove', e => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
-      plane.x = e.touches[0].clientX - rect.left - plane.width / 2;
+      plane.x = Math.max(0, Math.min(canvas.width - plane.width, e.touches[0].clientX - rect.left - plane.width / 2));
     }, { passive: false });
 
     document.getElementById('pauseButton').addEventListener('click', () => {
@@ -361,6 +361,24 @@ let lastEnemySpawn = 0;
     });
 
     loop();
+const fullscreenBtn = document.getElementById('fullscreenButton');
+
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) {
+    fullscreenBtn.textContent = 'Exit';
+  } else {
+    fullscreenBtn.textContent = '⛶ Fullscreen';
+  }
+});
+
 document.getElementById('fullscreenButton').addEventListener('click', () => {
   const elem = document.documentElement;
   if (elem.requestFullscreen) {
