@@ -494,16 +494,25 @@ document.addEventListener('keydown', (e) => {
 </body>
 </html>
 
+
+
+
+
 <script>
 document.addEventListener('keydown', (e) => {
   if (!canPlaySounds) canPlaySounds = true;
 
-  if (e.key === 'Enter') {
-    const restartButton = document.getElementById('restartButton');
+  const restartButton = document.getElementById('restartButton');
 
+  if (e.key === 'Enter') {
     if (gameOver && restartButton && restartButton.style.display !== 'none') {
-      restartButton.click();
-    } else if (!gameOver) {
+      restartButton.click(); // Enter → Restart
+    }
+  }
+
+  if (e.code === 'Space') {
+    e.preventDefault(); // prevent fullscreen toggle
+    if (!gameOver) {
       isPaused = !isPaused;
       document.getElementById('pauseButton').textContent = isPaused ? 'Resume' : 'Pause';
       document.getElementById('resetButton').style.display = isPaused ? 'block' : 'none';
