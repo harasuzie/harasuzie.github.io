@@ -96,15 +96,8 @@
       }
     }
 
-    #mainWrapper {
-  margin-top: -200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#canvasWrapper {
+    #canvasWrapper {
+  transform: translateY(-150px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -164,7 +157,6 @@
   </style>
 </head>
 <body>
-  <div id="mainWrapper">
   
     <div id="scoreboard">
     Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
@@ -434,7 +426,6 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 
 <div id="adsensePlaceholder" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; justify-content: center; align-items: center; z-index: 100;">
     [ 광고가 들어갈 자리입니다 ]
-  </div>
   </div>
 </body>
 </html>
