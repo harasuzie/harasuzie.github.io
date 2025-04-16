@@ -97,7 +97,7 @@
     }
 
     #canvasWrapper {
-  transform: translateY(-150px);
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,9 +162,7 @@
     Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
   </div>
 <div id="canvasWrapper">
-  
-  </div>
-  <div id="canvasContainer">
+<div id="canvasContainer">
     <canvas id="gameCanvas" width="400" height="600"></canvas>
     <button id="pauseButton">Pause</button>
 <button id="fullscreenButton" class="retro-button" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
@@ -172,6 +170,9 @@
 </button>
 
   </div>
+  
+  </div>
+  
   <div id="finalScore"></div>
   <button id="restartButton" class="retro-button">Restart</button>
   <script>
