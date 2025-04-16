@@ -157,6 +157,10 @@
   <div id="canvasContainer">
     <canvas id="gameCanvas" width="400" height="600"></canvas>
     <button id="pauseButton">Pause</button>
+<button id="fullscreenButton" class="retro-button" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+  ⛶ Fullscreen
+</button>
+
   </div>
   <div id="finalScore"></div>
   <button id="restartButton" class="retro-button">Restart</button>
@@ -357,6 +361,17 @@ let lastEnemySpawn = 0;
     });
 
     loop();
+document.getElementById('fullscreenButton').addEventListener('click', () => {
+  const elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
+});
+
     
   </script>
 </body>
