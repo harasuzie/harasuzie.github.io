@@ -147,7 +147,7 @@
 </head>
 <body>
   
-  <div id="adsensePlaceholder" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; display: flex; justify-content: center; align-items: center; z-index: 1000;" style="display:none; width: 100%; text-align: center; padding: 10px; background: #222; color: #ccc; font-size: 10px; font-family: 'Press Start 2P', sans-serif;">
+  <div id="adsensePlaceholder" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; display: flex; justify-content: center; align-items: center; z-index: 1000;">
     [ 광고가 들어갈 자리입니다 ]
   </div>
 
@@ -179,6 +179,7 @@
     let gameOver = false;
     let planeHit = false;
         document.getElementById('adsensePlaceholder').style.display = 'block';
+
     let shootCooldown = 0;
     let isPaused = false;
 let lastEnemySpawn = 0;
@@ -225,6 +226,7 @@ let lastEnemySpawn = 0;
         restartButton.style.display = 'block';
         planeHit = false;
         document.getElementById('adsensePlaceholder').style.display = 'block';
+
       }
     }
 
@@ -317,6 +319,7 @@ let lastEnemySpawn = 0;
       score = 0; shootCooldown = 0;
       gameOver = false; planeHit = false;
         document.getElementById('adsensePlaceholder').style.display = 'block';
+
       isNewHighScore = false;
       plane.x = 180; plane.y = 520;
       document.getElementById('score').textContent = score;
