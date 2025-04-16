@@ -520,3 +520,31 @@ document.addEventListener('keydown', (e) => {
   }
 });
 </script>
+
+<script>
+
+let dragging = false;
+let dragStartX = 0;
+let planeStartX = 0;
+
+canvas.addEventListener('touchstart', function(e) {
+  if (isPaused || gameOver) return;
+  dragging = true;
+  const touch = e.touches[0];
+  dragStartX = touch.clientX;
+  planeStartX = plane.x;
+});
+
+canvas.addEventListener('touchmove', function(e) {
+  if (!dragging || isPaused || gameOver) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - dragStartX;
+  plane.x = Math.max(0, Math.min(canvas.width - plane.width, planeStartX + deltaX));
+  e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchend', function(e) {
+  dragging = false;
+});
+
+</script>
