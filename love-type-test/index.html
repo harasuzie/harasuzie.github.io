@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>심리 테스트</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 시작 화면 -->
+  <div id="start-screen">
+    <h1>💘 연애 성향 테스트</h1>
+    <p>7가지 질문으로 알아보는 당신의 연애 스타일</p>
+    <button id="startBtn" class="option-btn">시작하기</button>
+  </div>
+
+  <!-- 로딩 화면 -->
+  <div id="loading-screen" style="display: none;">
+    <p>🔄 테스트를 준비 중입니다...</p>
+  </div>
+
+  <!-- 질문 화면 -->
+  <div id="quiz" style="display: none;">
+    <h2 id="question">질문 로딩 중...</h2>
+    <div id="options"></div>
+  </div>
+
+  <!-- 광고 자리 -->
+  <div id="adsense-bottom" style="display: none;">
+    <div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

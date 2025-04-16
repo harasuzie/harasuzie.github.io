@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #fff0f6;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 192, 203, 0.2) 20px,
+    rgba(255, 192, 203, 0.2) 40px
+  ),
+  repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(255, 192, 203, 0.2) 20px,
+    rgba(255, 192, 203, 0.2) 40px
+  );
+  text-align: center;
+  margin: 0;
+  padding: 2rem;
+}
+#start-screen, #loading-screen, #quiz {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 400px;
+  width: 90%;
+  margin: 2rem auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+#start-screen h1 {
+  font-size: 1.6rem;
+  color: #ff6fa1;
+  margin-bottom: 1rem;
+}
+#start-screen p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-size: 1.5rem;
+  color: #ff6fa1;
+  margin-bottom: 1.5rem;
+}
+.option-btn {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #e0f7fa, #b2ebf2);
+  color: #00796b;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.option-btn:hover {
+  background: #b2ebf2;
+  transform: translateY(-2px);
+}
+#restartBtn {
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  background: #ffc1db;
+  color: #8e2a4c;
+  transition: background 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+#restartBtn:hover {
+  background: #ffb0cd;
+}
+#ad-placeholder,
+#ad-placeholder * {
+  pointer-events: none;
+}
+#ad-placeholder {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #999;
+  font-style: italic;
+  padding: 1rem 0;
+}
+#adsense-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ad-placeholder {
+  font-size: 0.9rem;
+  color: #999;
+  font-style: italic;
+  pointer-events: none;
+}
