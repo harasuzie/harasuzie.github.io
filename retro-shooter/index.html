@@ -107,7 +107,7 @@
       position: relative;
       width: 100%;
       max-width: 480px;
-      aspect-ratio: 2 / 3;
+      aspect-ratio: 2 / 3.735;
     }
 
     #pauseButton {
@@ -417,9 +417,17 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 
 
 
+canvas.addEventListener('mousemove', function(e) {
+  const rect = canvas.getBoundingClientRect();
+  if (isPaused) return;
+  const x = e.clientX - rect.left;
+  plane.x = Math.max(0, Math.min(canvas.width - plane.width, x - plane.width / 2));
+});
+
 canvas.addEventListener('touchmove', function(e) {
   const touch = e.touches[0];
   const rect = canvas.getBoundingClientRect();
+  if (isPaused) return;
   const x = touch.clientX - rect.left;
   plane.x = Math.max(0, Math.min(canvas.width - plane.width, x - plane.width / 2));
   e.preventDefault();
@@ -432,6 +440,7 @@ let keyState = {};
 let velocity = 0;
 
 document.addEventListener('keydown', (e) => {
+  if (!canPlaySounds) canPlaySounds = true;
   keyState[e.key.toLowerCase()] = true;
 });
 
@@ -441,7 +450,7 @@ document.addEventListener('keyup', (e) => {
 });
 
 setInterval(() => {
-  if (!plane || !canvas) return;
+  if (!plane || !canvas || isPaused) return;
 
   const accel = 1.5;
   const maxSpeed = 10;
@@ -461,7 +470,9 @@ setInterval(() => {
 
 
 document.addEventListener('keydown', (e) => {
+  if (!canPlaySounds) canPlaySounds = true;
   if (e.key === 'Enter') {
+    if (!gameOver) return;
     const restartButton = document.getElementById('restartButton');
     if (restartButton && restartButton.style.display !== 'none') {
       restartButton.click();
@@ -482,3 +493,21 @@ document.addEventListener('keydown', (e) => {
   </div>
 </body>
 </html>
+
+<script>
+document.addEventListener('keydown', (e) => {
+  if (!canPlaySounds) canPlaySounds = true;
+
+  if (e.key === 'Enter') {
+    const restartButton = document.getElementById('restartButton');
+
+    if (gameOver && restartButton && restartButton.style.display !== 'none') {
+      restartButton.click();
+    } else if (!gameOver) {
+      isPaused = !isPaused;
+      document.getElementById('pauseButton').textContent = isPaused ? 'Resume' : 'Pause';
+      document.getElementById('resetButton').style.display = isPaused ? 'block' : 'none';
+    }
+  }
+});
+</script>
