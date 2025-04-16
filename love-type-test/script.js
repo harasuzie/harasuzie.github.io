@@ -88,6 +88,8 @@ function showResult() {
   document.getElementById("quiz").innerHTML = `
     <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
 
+    <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
+
     <div class="result-card">
       <h2>${userName}님은<br>"${type}"입니다!</h2>
       <p>💬 ${randomAdvice}</p>
@@ -102,6 +104,8 @@ function restartQuiz() {
   current = 0;
   answers = [];
   document.getElementById("quiz").innerHTML = `
+    <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
+
     <div id="adsense-bottom" style="display: block;"><div class="ad-placeholder">📢 여기에 광고가 들어올 예정입니다</div></div>
 
     <h2 id="question"></h2>
