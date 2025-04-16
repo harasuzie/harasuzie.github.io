@@ -209,6 +209,7 @@ let lastEnemySpawn = 0;
           height: 10
         });
         shootCooldown = 20;
+        playSound('sfxFire');
       }
     }
 
@@ -227,6 +228,7 @@ let lastEnemySpawn = 0;
         finalScore.innerHTML = `Your Score: ${score}` + 
           (isNewHighScore ? "<div class='highscore-glow'>★ NEW HIGH SCORE! ★</div>" : "");
         finalScore.style.display = 'flex';
+        if (isNewHighScore) playSound('sfxHighscore');
         restartButton.style.display = 'block';
         planeHit = false;
         document.getElementById('adsensePlaceholder').style.display = 'block';
@@ -259,6 +261,7 @@ let lastEnemySpawn = 0;
               document.getElementById('highscore').textContent = highScore;
             }
             document.getElementById('score').textContent = score;
+            playSound('sfxKill');
             break;
           }
         }
@@ -271,6 +274,7 @@ let lastEnemySpawn = 0;
           createExplosion(plane.x + plane.width / 2, plane.y + plane.height / 2);
           createExplosion(e.x + e.width / 2, e.y + e.height / 2);
           enemies.splice(ei, 1);
+          playSound('sfxExplosion');
           endGame();
         }
       }
@@ -327,6 +331,7 @@ let lastEnemySpawn = 0;
       isNewHighScore = false;
       plane.x = 180; plane.y = 520;
       document.getElementById('score').textContent = score;
+            playSound('sfxKill');
       finalScore.style.display = 'none';
       restartButton.style.display = 'none';
   document.getElementById('adsensePlaceholder').style.display = 'none';
@@ -360,7 +365,19 @@ let lastEnemySpawn = 0;
       location.reload();
     });
 
-    loop();
+    
+let canPlaySounds = false;
+window.addEventListener('click', () => {
+  canPlaySounds = true;
+}, { once: true });
+
+function playSound(id) {
+  if (!canPlaySounds) return;
+  const s = document.getElementById(id);
+  if (s) s.play().catch(() => {});
+}
+
+loop();
 const fullscreenBtn = document.getElementById('fullscreenButton');
 
 fullscreenBtn.addEventListener('click', () => {
@@ -392,5 +409,11 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 
     
   </script>
+
+<audio id="sfxFire" src="fire.wav" preload="auto"></audio>
+<audio id="sfxExplosion" src="explosion.wav" preload="auto"></audio>
+<audio id="sfxKill" src="enemykill.ogg" preload="auto"></audio>
+<audio id="sfxHighscore" src="newhighscore.wav" preload="auto"></audio>
+
 </body>
 </html>
