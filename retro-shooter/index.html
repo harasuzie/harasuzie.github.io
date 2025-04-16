@@ -25,7 +25,7 @@
     #restartButton {
       display: none;
       position: absolute;
-      top: 50%;
+      top: 60%;
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 12px 24px;
@@ -202,14 +202,6 @@
     }
 
     function update() {
-      // Spawn enemy every 1 second if not paused
-      const now = Date.now();
-      if (!window.lastEnemySpawnTime) window.lastEnemySpawnTime = now;
-      if (!isPaused && now - window.lastEnemySpawnTime > 1000) {
-        spawnEnemy();
-        window.lastEnemySpawnTime = now;
-      }
-
       if (gameOver && explosions.length === 0) return;
       shootCooldown--;
       shootBullet();
@@ -328,7 +320,7 @@
     });
 
     loop();
-    
+    setInterval(spawnEnemy, 1000);
   </script>
 </body>
 </html>
