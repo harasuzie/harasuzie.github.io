@@ -13,12 +13,13 @@
       
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: flex-start;
+      height: 100dvh;
       font-family: 'Press Start 2P', sans-serif;
       background: #111;
       color: #fff;
       overflow: hidden;
+      padding-bottom: 90px;
     }
     canvas {
   background: #222;
@@ -27,11 +28,15 @@
   height: auto;
 }
     #scoreboard {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-align: center;
   text-align: center;
   padding: 10px;
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
+      padding-bottom: 90px;
   text-overflow: ellipsis;
 }
 
@@ -93,7 +98,15 @@
       }
     }
 
-    #canvasContainer {
+    #canvasWrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#canvasContainer {
       position: relative;
       width: 100%;
       max-width: 480px;
@@ -147,8 +160,10 @@
 </head>
 <body>
   
-    <div id="scoreboard">
+    <div id="canvasWrapper">
+  <div id="scoreboard">
     Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
+  </div>
   </div>
   <div id="canvasContainer">
     <canvas id="gameCanvas" width="400" height="600"></canvas>
@@ -369,7 +384,7 @@ window.addEventListener('click', () => {
 function playSound(id) {
   if (!canPlaySounds) return;
   const s = document.getElementById(id);
-  if (s) s.play().catch(() => {});
+  if (s) { s.muted = false; s.play().catch(() => {}); }
 }
 
 loop();
@@ -410,7 +425,7 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 <audio id="sfxKill" src="enemykill.ogg" preload="auto"></audio>
 <audio id="sfxHighscore" src="newhighscore.wav" preload="auto"></audio>
 
-<div id="adsensePlaceholder" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; justify-content: center; align-items: center; z-index: 100;">
+<div id="adsensePlaceholder" style="display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: 90px; background: #222; color: #ccc; font-size: 12px; font-family: 'Press Start 2P', sans-serif; justify-content: flex-start; align-items: center; z-index: 100;">
     [ 광고가 들어갈 자리입니다 ]
   </div>
 </body>
