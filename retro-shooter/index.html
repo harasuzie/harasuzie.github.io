@@ -139,6 +139,11 @@
   </style>
 </head>
 <body>
+  
+  <div id="adsensePlaceholder" style="display:none; width: 100%; text-align: center; padding: 10px; background: #222; color: #ccc; font-size: 10px; font-family: 'Press Start 2P', sans-serif;">
+    [ 광고가 들어갈 자리입니다 ]
+  </div>
+
   <div id="scoreboard">
     Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
   </div>
@@ -163,6 +168,7 @@
     let isNewHighScore = false;
     let gameOver = false;
     let planeHit = false;
+        document.getElementById('adsensePlaceholder').style.display = 'block';
     let shootCooldown = 0;
     let isPaused = false;
 let lastEnemySpawn = 0;
@@ -208,6 +214,7 @@ let lastEnemySpawn = 0;
         finalScore.style.display = 'flex';
         restartButton.style.display = 'block';
         planeHit = false;
+        document.getElementById('adsensePlaceholder').style.display = 'block';
       }
     }
 
@@ -299,11 +306,13 @@ let lastEnemySpawn = 0;
       bullets = []; enemies = []; explosions = [];
       score = 0; shootCooldown = 0;
       gameOver = false; planeHit = false;
+        document.getElementById('adsensePlaceholder').style.display = 'block';
       isNewHighScore = false;
       plane.x = 180; plane.y = 520;
       document.getElementById('score').textContent = score;
       finalScore.style.display = 'none';
       restartButton.style.display = 'none';
+  document.getElementById('adsensePlaceholder').style.display = 'none';
     });
 
     canvas.addEventListener('mousemove', e => {
