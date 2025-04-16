@@ -107,7 +107,7 @@
       position: relative;
       width: 100%;
       max-width: 480px;
-      aspect-ratio: 2 / 3.5;
+      aspect-ratio: 2 / 4;
     }
 
     #pauseButton {
@@ -416,7 +416,19 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 });
 
     
-  </script>
+  
+document.addEventListener('keydown', (e) => {
+  if (!player || !canvas) return;
+
+  const step = 10;
+  if (e.key === 'ArrowLeft') {
+    player.x = Math.max(0, player.x - step);
+  } else if (e.key === 'ArrowRight') {
+    player.x = Math.min(canvas.width - player.width, player.x + step);
+  }
+});
+
+</script>
 
 <audio id="sfxFire" src="fire.wav" preload="auto"></audio>
 <audio id="sfxExplosion" src="explosion.wav" preload="auto"></audio>
