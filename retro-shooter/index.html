@@ -14,7 +14,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100dvh;
+      height: 100vh;
       font-family: 'Press Start 2P', sans-serif;
       background: #111;
       color: #fff;
@@ -107,7 +107,7 @@
       position: relative;
       width: 100%;
       max-width: 480px;
-      aspect-ratio: 2 / 4;
+      aspect-ratio: 2 / 3;
     }
 
     #pauseButton {
@@ -345,10 +345,7 @@ let lastEnemySpawn = 0;
   document.getElementById('adsensePlaceholder').style.display = 'none';
     });
 
-    canvas.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      plane.x = Math.max(0, Math.min(canvas.width - plane.width, e.clientX - rect.left - plane.width / 2));
-    });
+    
 
     canvas.addEventListener('touchmove', e => {
       e.preventDefault();
@@ -417,37 +414,61 @@ document.getElementById('fullscreenButton').addEventListener('click', () => {
 
     
   
-document.addEventListener('keydown', (e) => {
-  if (!player || !canvas) return;
 
-  const step = 10;
-  if (e.key === 'ArrowLeft') {
-    player.x = Math.max(0, player.x - step);
-  } else if (e.key === 'ArrowRight') {
-    player.x = Math.min(canvas.width - player.width, player.x + step);
-  }
-});
-
-
-document.addEventListener('keydown', (e) => {
-  if (!player || !canvas) return;
-  const key = e.key.toLowerCase();
-  const step = 10;
-  if (key === 'arrowleft' || key === 'a') {
-    player.x = Math.max(0, player.x - step);
-  } else if (key === 'arrowright' || key === 'd') {
-    player.x = Math.min(canvas.width - player.width, player.x + step);
-  }
-});
 
 
 canvas.addEventListener('touchmove', function(e) {
   const touch = e.touches[0];
   const rect = canvas.getBoundingClientRect();
   const x = touch.clientX - rect.left;
-  player.x = Math.max(0, Math.min(canvas.width - player.width, x - player.width / 2));
+  plane.x = Math.max(0, Math.min(canvas.width - plane.width, x - plane.width / 2));
   e.preventDefault();
 }, { passive: false });
+
+
+
+
+let keyState = {};
+let velocity = 0;
+
+document.addEventListener('keydown', (e) => {
+  keyState[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener('keyup', (e) => {
+  keyState[e.key.toLowerCase()] = false;
+  velocity = 0; // stop immediately on key release
+});
+
+setInterval(() => {
+  if (!plane || !canvas) return;
+
+  const accel = 1.5;
+  const maxSpeed = 10;
+
+  if (keyState['arrowleft'] || keyState['a']) {
+    velocity = Math.max(velocity - accel, -maxSpeed);
+  } else if (keyState['arrowright'] || keyState['d']) {
+    velocity = Math.min(velocity + accel, maxSpeed);
+  } else {
+    // smooth stop (deceleration)
+    if (velocity > 0) velocity = Math.max(0, velocity - accel);
+    else if (velocity < 0) velocity = Math.min(0, velocity + accel);
+  }
+
+  plane.x = Math.max(0, Math.min(canvas.width - plane.width, plane.x + velocity));
+}, 16);
+
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const restartButton = document.getElementById('restartButton');
+    if (restartButton && restartButton.style.display !== 'none') {
+      restartButton.click();
+    }
+  }
+});
+
 </script>
 
 
