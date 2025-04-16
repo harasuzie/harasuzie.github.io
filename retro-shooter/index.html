@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Retro Shooter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { overflow: hidden; font-family: 'Press Start 2P', sans-serif; background: #111; color: #fff; position: relative; }
-    canvas { background: #222; display: block; margin: 0 auto; }
-    #scoreboard { text-align: center; padding: 10px; font-size: 14px; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #111;
+      font-family: 'Press Start 2P', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #scoreboard {
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 12px;
+      z-index: 5;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      max-width: 400px;
+      max-height: 600px;
+      display: block;
+      background: #222;
+    }
     #restartButton {
       display: none;
       position: absolute;
-      top: 50%;
+      top: 60%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 12px 24px;
-      font-size: 14px;
+      padding: 10px 20px;
+      font-size: 12px;
       background: #ff4444;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       z-index: 10;
     }
@@ -32,43 +54,39 @@
       top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 20px;
+      font-size: 16px;
       color: white;
       z-index: 9;
     }
-  
-      to {
-      text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffcc00, 0 0 30px #ffd700;
+    .highscore-glow {
+      font-size: 12px;
+      font-weight: bold;
+      color: #00ffcc;
+      animation: flicker 1.5s infinite alternate;
     }
-  }
-
-  .highscore-glow {
-    font-size: 14px;
-    font-weight: bold;
-    color: #00ffcc;
-    margin-top: 10px;
-    animation: flicker 1.5s infinite alternate;
-  }
-
-  @keyframes flicker {
-    0%   { opacity: 1; }
-    50%  { opacity: 0.6; }
-    100% { opacity: 1; }
-  }
-</style>
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <div id="scoreboard">
-    Score: <span id="score">0</span> | High Score: <span id="highscore">0</span>
-  </div>
-  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <div id="scoreboard">Score: <span id="score">0</span> | High Score: <span id="highscore">0</span></div>
+  <canvas id="gameCanvas"></canvas>
   <div id="finalScore"></div>
   <button id="restartButton">🔁 Restart</button>
+
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const restartButton = document.getElementById('restartButton');
-    const finalScore = document.getElementById('finalScore');
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // 고정 해상도 유지
+    canvas.width = 400;
+    canvas.height = 600;
+
+    const restartButton = document.getElementById("restartButton");
+    const finalScore = document.getElementById("finalScore");
 
     const plane = {
       x: 180,
@@ -91,8 +109,8 @@
 
     function spawnEnemy() {
       enemies.push({
-        x: Math.random() * 360,
-        y: -20,
+        x: Math.random() * 370,
+        y: -30,
         width: 30,
         height: 30,
         speed: 2 + Math.random() * 2
@@ -123,9 +141,9 @@
       explosions = explosions.filter(ex => ex.alpha > 0);
 
       if (gameOver && explosions.length === 0 && planeHit) {
-        finalScore.innerHTML = `Your Score: ${score}` + (isNewHighScore ? '<div class=\'highscore-glow\'>New High Score!</div>' : '');
-        finalScore.style.display = 'block';
-        restartButton.style.display = 'block';
+        finalScore.innerHTML = `Your Score: ${score}` + (isNewHighScore ? "<div class='highscore-glow'>New High Score!</div>" : "");
+        finalScore.style.display = "block";
+        restartButton.style.display = "block";
         planeHit = false;
       }
     }
@@ -140,7 +158,7 @@
       bullets = bullets.filter(b => b.y > -10);
 
       enemies.forEach(e => e.y += e.speed);
-      enemies = enemies.filter(e => e.y < 600);
+      enemies = enemies.filter(e => e.y < canvas.height);
 
       for (let bi = bullets.length - 1; bi >= 0; bi--) {
         for (let ei = enemies.length - 1; ei >= 0; ei--) {
@@ -153,7 +171,7 @@
             enemies.splice(ei, 1);
             score++;
             if (score > highScore) {
-            isNewHighScore = true;
+              isNewHighScore = true;
               highScore = score;
               localStorage.setItem('highScore', highScore);
               document.getElementById('highscore').textContent = highScore;
@@ -217,81 +235,23 @@
       planeHit = true;
     }
 
-    restartButton.addEventListener('click', () => {
+    restartButton.addEventListener("click", () => {
       location.reload();
     });
 
-    canvas.addEventListener('mousemove', e => {
+    canvas.addEventListener("mousemove", e => {
       const rect = canvas.getBoundingClientRect();
       plane.x = e.clientX - rect.left - plane.width / 2;
     });
 
-    canvas.addEventListener('touchmove', e => {
+    canvas.addEventListener("touchmove", e => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       plane.x = e.touches[0].clientX - rect.left - plane.width / 2;
     }, { passive: false });
 
     setInterval(spawnEnemy, 1000);
-    
-    // ⏸️ Pause 버튼 생성
-    const pauseButton = document.createElement('button');
-    pauseButton.textContent = '⏸️ Pause';
-    pauseButton.style.position = 'absolute';
-    pauseButton.style.top = '10px';
-    pauseButton.style.right = '10px';
-    pauseButton.style.padding = '6px 12px';
-    pauseButton.style.fontSize = '14px';
-    pauseButton.style.background = '#444';
-    pauseButton.style.color = '#fff';
-    pauseButton.style.border = 'none';
-    pauseButton.style.borderRadius = '6px';
-    pauseButton.style.cursor = 'pointer';
-    pauseButton.style.zIndex = '11';
-    document.body.appendChild(pauseButton);
-
-    let isPaused = false;
-
-    pauseButton.addEventListener('click', () => {
-      isPaused = !isPaused;
-      pauseButton.textContent = isPaused ? '▶️ Resume' : '⏸️ Pause';
-      resetButton.style.display = isPaused ? 'block' : 'none';
-    });
-
-    // 🧨 하이스코어 초기화 버튼 생성
-    const resetButton = document.createElement('button');
-    resetButton.textContent = '🧨 하이스코어 초기화';
-    resetButton.style.display = 'none';
-    resetButton.style.position = 'absolute';
-    resetButton.style.top = '50px';
-    resetButton.style.right = '10px';
-    resetButton.style.padding = '6px 12px';
-    resetButton.style.fontSize = '14px';
-    resetButton.style.background = '#c00';
-    resetButton.style.color = '#fff';
-    resetButton.style.border = 'none';
-    resetButton.style.borderRadius = '6px';
-    resetButton.style.cursor = 'pointer';
-    resetButton.style.zIndex = '11';
-    document.body.appendChild(resetButton);
-
-    resetButton.addEventListener('click', () => {
-      if (confirm('정말 하이스코어를 초기화할까요?')) {
-        localStorage.removeItem('highScore');
-        alert('하이스코어가 초기화되었습니다!');
-        location.reload();
-      }
-    });
-
-    // loop 함수 수정: 일시정지 상태면 업데이트 생략
-    const originalLoop = loop;
-    loop = function() {
-      if (!isPaused) update();
-      draw();
-      requestAnimationFrame(loop);
-    };
-
-loop();
+    loop();
   </script>
 </body>
 </html>
