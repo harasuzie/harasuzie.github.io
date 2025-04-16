@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -153,7 +154,34 @@
       cursor: pointer;
       z-index: 10;
     }
-  </style>
+  
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  touch-action: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+}
+#canvasContainer {
+  aspect-ratio: 2 / 3.735;
+  width: 100%;
+  max-width: 480px;
+  max-height: 100vh;
+  touch-action: none;
+  position: relative;
+}
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+</style>
 </head>
 <body>
   
@@ -365,10 +393,16 @@ let lastEnemySpawn = 0;
     resetButton.className = 'retro-button';
     resetButton.style.display = 'none';
     document.getElementById('canvasContainer').appendChild(resetButton);
-    resetButton.addEventListener('click', () => {
-      localStorage.removeItem('highScore');
-      location.reload();
-    });
+    
+
+resetButton.addEventListener('click', () => {
+  localStorage.removeItem('highScore');
+  highScore = 0;
+  document.getElementById('highscore').textContent = highScore;
+  playSound('sfxFire'); // 🔊 fire 사운드 재생
+});
+
+
 
     
 let canPlaySounds = false;
@@ -471,7 +505,8 @@ setInterval(() => {
 
 document.addEventListener('keydown', (e) => {
   if (!canPlaySounds) canPlaySounds = true;
-  if (e.key === 'Enter') {
+  e.preventDefault();
+    if (e.key === 'Enter') {
     if (!gameOver) return;
     const restartButton = document.getElementById('restartButton');
     if (restartButton && restartButton.style.display !== 'none') {
@@ -504,7 +539,8 @@ document.addEventListener('keydown', (e) => {
 
   const restartButton = document.getElementById('restartButton');
 
-  if (e.key === 'Enter') {
+  e.preventDefault();
+    if (e.key === 'Enter') {
     if (gameOver && restartButton && restartButton.style.display !== 'none') {
       restartButton.click(); // Enter → Restart
     }
