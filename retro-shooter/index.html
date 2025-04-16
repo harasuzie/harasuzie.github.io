@@ -20,12 +20,19 @@
       overflow: hidden;
     }
     canvas { background: #222; display: block; max-width: 100%; height: auto; }
-    #scoreboard { text-align: center; padding: 10px; font-size: 14px; }
+    #scoreboard {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
     #restartButton {
       display: none;
       position: absolute;
-      top: 60%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 12px 24px;
@@ -40,6 +47,7 @@
 
     #finalScore {
       display: none;
+      padding-top: 50px;
       position: absolute;
       top: 40%;
       left: 50%;
@@ -54,6 +62,9 @@
     }
 
     .highscore-glow {
+  white-space: nowrap;
+  font-size: 14px;
+  margin-top: 20px;
       margin-top: 60px;
       font-size: 18px;
       color: #ffff00;
@@ -156,6 +167,7 @@
     let planeHit = false;
     let shootCooldown = 0;
     let isPaused = false;
+let lastEnemySpawn = 0;
 
     document.getElementById('highscore').textContent = highScore;
 
@@ -269,6 +281,11 @@
     }
 
     function loop() {
+      const now = Date.now();
+      if (!isPaused && now - lastEnemySpawn > 1000) {
+        spawnEnemy();
+        lastEnemySpawn = now;
+      }
       if (!isPaused) update();
       updateExplosions();
       draw();
@@ -320,7 +337,7 @@
     });
 
     loop();
-    setInterval(spawnEnemy, 1000);
+    
   </script>
 </body>
 </html>
