@@ -19,7 +19,12 @@
       color: #fff;
       overflow: hidden;
     }
-    canvas { background: #222; display: block; max-width: 100%; height: auto; }
+    canvas {
+  background: #222;
+  display: block;
+  width: 100%;
+  height: auto;
+}
     #scoreboard {
   text-align: center;
   padding: 10px;
@@ -89,8 +94,9 @@
 
     #canvasContainer {
       position: relative;
-      width: 400px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 2 / 3;
     }
 
     #pauseButton {
@@ -154,6 +160,9 @@
   <div id="finalScore"></div>
   <button id="restartButton" class="retro-button">Restart</button>
   <script>
+    window.onload = () => {
+      document.getElementById('adsensePlaceholder').style.display = 'none';
+    };
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const restartButton = document.getElementById('restartButton');
