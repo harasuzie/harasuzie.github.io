@@ -428,7 +428,28 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+
+document.addEventListener('keydown', (e) => {
+  if (!player || !canvas) return;
+  const key = e.key.toLowerCase();
+  const step = 10;
+  if (key === 'arrowleft' || key === 'a') {
+    player.x = Math.max(0, player.x - step);
+  } else if (key === 'arrowright' || key === 'd') {
+    player.x = Math.min(canvas.width - player.width, player.x + step);
+  }
+});
+
+
+canvas.addEventListener('touchmove', function(e) {
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const x = touch.clientX - rect.left;
+  player.x = Math.max(0, Math.min(canvas.width - player.width, x - player.width / 2));
+  e.preventDefault();
+}, { passive: false });
 </script>
+
 
 <audio id="sfxFire" src="fire.wav" preload="auto"></audio>
 <audio id="sfxExplosion" src="explosion.wav" preload="auto"></audio>
