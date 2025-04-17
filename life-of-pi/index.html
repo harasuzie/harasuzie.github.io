@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Life of Pi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Start Screen -->
+  <div id="startScreen" class="screen">
+    <h1 class="retro-title">Life of Pi</h1>
+    <p id="pressStart" class="press-start">PRESS START</p>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="gameScreen" class="container hidden">
+    <h2>Life of Pi</h2>
+
+    <div id="lives" class="lives">
+      <button id="restartButton" class="restart-btn hidden">RESTART</button>
+    </div>
+
+    <div class="pi-display" id="piDisplay">3.</div>
+    <div id="digitCounter" class="counter">Digits correct: 0</div>
+<div id="highScore" class="counter">High score: 0</div>
+
+    <div class="keypad" id="keypad">
+      <button>1</button><button>2</button><button>3</button>
+      <button>4</button><button>5</button><button>6</button>
+      <button>7</button><button>8</button><button>9</button>
+      <div class="empty"></div><button>0</button><div class="empty"></div>
+    </div>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

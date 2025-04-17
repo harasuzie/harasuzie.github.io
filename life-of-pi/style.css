@@ -1,0 +1,151 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.screen, .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.retro-title {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.press-start {
+  font-size: 0.9em;
+  animation: blink 1s step-start infinite;
+  cursor: pointer;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.pi-display {
+  font-size: 1.8em;
+  background: #fff;
+  color: #000;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(255,255,255,0.2);
+  min-height: 40px;
+  max-width: 280px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.counter {
+  font-size: 0.8em;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.keypad button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.2em;
+  padding: 18px;
+  border: none;
+  background: #222;
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.keypad button:active {
+  background: #555;
+}
+
+.empty {
+  visibility: hidden;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1em;
+  min-height: 1.5em;
+  text-align: center;
+}
+
+.lives {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin-bottom: 20px;
+  gap: 10px;
+  position: relative;
+  color: red;
+  font-size: 2em;
+  letter-spacing: 12px;
+  text-shadow: 2px 2px #440000;
+}
+
+.pixel-heart {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: red;
+  position: relative;
+  margin: 0 10px;
+  transform: rotate(45deg);
+  image-rendering: pixelated;
+}
+
+.pixel-heart::before,
+.pixel-heart::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: red;
+  border-radius: 0;
+}
+
+.pixel-heart::before {
+  top: -7px;
+  left: 0;
+}
+
+.pixel-heart::after {
+  top: 0;
+  left: -7px;
+}
+
+.restart-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4em;
+  padding: 4px 12px;
+  margin-top: 1px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.restart-btn:active {
+  background: #fff;
+  color: #000;
+}
